@@ -9,7 +9,7 @@ CREATE TABLE csoptagok (
     szemszin VARCHAR(20),
     eletkor INT,
     arulo boolean
-)
+);
 
 CREATE TABLE detektivek (
     id INT PRIMARY KEY,
@@ -17,7 +17,7 @@ CREATE TABLE detektivek (
     tapasztalat INT,
     hajszin VARCHAR(20),
     szulev INT
-)
+);
 
 CREATE TABLE kikerdezes (
     id int PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE kikerdezes (
     valasz VARCHAR(255) NOT NULL,
     FOREIGN KEY (detektiv_id) REFERENCES detektivek(id),
     FOREIGN KEY (csoptag_id) REFERENCES csoptagok(id)
-)
+);
 
 INSERT INTO csoptagok (id, nev, magassag, hajszin, szemszin, eletkor, arulo) VALUES
 (1, 'Kovács Péter', 175, 'barna', 'kék', 28, FALSE),
@@ -37,14 +37,14 @@ INSERT INTO csoptagok (id, nev, magassag, hajszin, szemszin, eletkor, arulo) VAL
 (5, 'Tóth László', 178, 'ősz', 'szürke', 45, FALSE),
 (6, 'Kiss Eszter', 172, 'barna', 'mogyoró', 26, FALSE);
 
--- Detektívek mintaadatai
+-- Detektívek mintaadatai (AI)
 INSERT INTO detektivek (id, nev, tapasztalat, hajszin, szulev) VALUES
 (1, 'Varga Zsolt', 15, 'fekete', 1975),
 (2, 'Molnár Kata', 8, 'szőke', 1985),
 (3, 'Balogh István', 22, 'ősz', 1968),
 (4, 'Fekete Judit', 5, 'barna', 1990);
 
--- Kikérdezések mintaadatai
+-- Kikérdezések mintaadatai (AI)
 INSERT INTO kikerdezes (id, detektiv_id, csoptag_id, kerdes, valasz) VALUES
 (1, 1, 1, 'Hol volt május 20-án este 8 órakor?', 'Otthon voltam, gitároztam.'),
 (2, 1, 2, 'Látta-e Kovács Pétert május 20-án?', 'Igen, délután találkoztunk a kávézóban.'),
@@ -58,24 +58,18 @@ INSERT INTO kikerdezes (id, detektiv_id, csoptag_id, kerdes, valasz) VALUES
 (10, 3, 2, 'Van-e valamilyen fenyegetése?', 'Nem, biztonságban érzem magam.');
 
 
--- Összes csoporttag listája
 SELECT nev, eletkor, hajszin FROM csoptagok;
 
--- Árulók keresése
 SELECT nev, eletkor FROM csoptagok WHERE arulo = TRUE;
 
--- Magas emberek (175 cm felett)
 SELECT nev, magassag FROM csoptagok WHERE magassag > 175;
 
--- Detektívek tapasztalat szerint
 SELECT nev, tapasztalat FROM detektivek ORDER BY tapasztalat DESC;
 
--- Barna hajú emberek
 SELECT nev, 'csoporttag' AS tipus FROM csoptagok WHERE hajszin = 'barna'
 UNION
 SELECT nev, 'detektív' AS tipus FROM detektivek WHERE hajszin = 'barna';
 
--- Mit válaszolt Szabó Gábor a konfliktusról szóló kérdésre?
 SELECT kikerdezes.valasz
 FROM kikerdezes INNER JOIN csoptagok ON kikerdezes.csoptag_id = csoptagok.id
-WHERE csoportagok.nev = 'Szabó Gábor' AND kikerdezes.kerdes LIKE '%konfliktus%';
+WHERE csoptagok.nev = 'Szabó Gábor' AND kikerdezes.kerdes LIKE '%konfliktus%';
