@@ -73,3 +73,11 @@ SELECT nev, 'detektív' AS tipus FROM detektivek WHERE hajszin = 'barna';
 SELECT kikerdezes.valasz
 FROM kikerdezes INNER JOIN csoptagok ON kikerdezes.csoptag_id = csoptagok.id
 WHERE csoptagok.nev = 'Szabó Gábor' AND kikerdezes.kerdes LIKE '%konfliktus%';
+
+SELECT kikerdezes.valasz
+FROM kikerdezes INNER JOIN detektivek ON kikerdezes.detektiv_id = detektivek.id
+WHERE detektivek.nev = 'Varga Zsolt';
+
+SELECT kikerdezes.valasz
+FROM kikerdezes INNER JOIN csoptagok ON csoptagok.id = kikerdezes.csoptag_id
+WHERE csoptagok.id = '1';
